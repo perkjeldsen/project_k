@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mariana1</title>
+</head>
+<body>
+    <form action="" name="form1">
+    <p>
+        Selects  component for your new pc
+    </p>
+    <p>
+        <label for="chkUSB">USB-port</label>
+        <input type="checkbox" id="chkUSB" name="chkUSB" value="usb-port" />
+    </p>
+    <p>
+        <label for="chkBluRay">Blu-ray</label>
+        <input type="checkbox" id="chkBluRay" name="chkBluRay" value="Blu-ray" />
+    </p>
+    <p>
+        <label for="chkHDMI">HDMI-port</label>
+        <input type="checkbox" id="chkHDMI" name="chkHDMI" value="HDMI-port" />
+    </p>
+
+    <p>
+        Select Processor Speed
+
+        <input type="radio" name="radCpuSpeed" checked="checked"
+               value="3.2 ghz"/>
+        <label>6.2 GHz</label>
+
+        <input type="radio" name="radCpuSpeed" value="8.7 ghz"/>
+        <label>8.0 GHz</label>
+
+        <input type="radio" name="radCpuSpeed" value="16.0 ghz"/>
+        <label>16.0 GHz</label>
+    </p>
+
+
+    <p>
+        Select screen
+    </p>
+    <p>
+        <input type="radio" name="radScreen " value="11.6" />
+        <label>11. 6"</label>
+    </p>
+        <input type="radio" name="radScreen " value="14" />
+        <label> 14" </label>
+    </p>
+
+        <input type="button" value="Check form" name="btnCheck" />
+    </form>
+
+    </form>
+
+   <script>
+        var myForm = document.form1;
+
+        function getSelectedSpeedValue() {
+            var radios = myForm.radCpuSpeed;
+
+            for (var index = 0; index < radios.length; index++) {
+                if (radios[index].checked) {
+                    return radios[index].value;
+                }
+            }
+
+            return "";
+        }
+
+        function findIndexOfSpeed(radio) {
+            var radios = myForm.radCpuSpeed;
+
+            for (var index = 0; index < radios.length; index++) {
+                if (radios[index] == radio) {
+                    return index;
+                }
+            }
+
+            return -1;
+        }
+
+        function radCpuSpeedClick(e) {
+            var radIndex = findIndexOfSpeed(e.target);
+
+            if (radIndex == 1) {
+                e.preventDefault();
+                alert("Sorry that processor speed is currently unavailable");
+
+                // to fix an issue with IE
+                myForm.radCpuSpeed[0].checked = true;
+            }
+        }
+
+        function btnCheckClick() {
+            var numberOfControls = myForm.length;
+            var compSpec = "Your chosen processor speed is ";
+            compSpec = compSpec + getSelectedSpeedValue();
+            compSpec = compSpec + "\nWith the following additional components:\n";
+
+            for (var index = 0; index < numberOfControls; index++) {
+                var element = myForm[index];
+                if (element.type == "checkbox") {
+                    if (element.checked) {
+                        compSpec = compSpec + element.value + "\n";
+                    }
+                }
+            }
+
+            alert(compSpec);
+        }
+
+        for (var index = 0; index < myForm.radCpuSpeed.length; index++) {
+            myForm.radCpuSpeed[index].addEventListener("click", radCpuSpeedClick);
+        }
+
+        myForm.btnCheck.addEventListener("click", btnCheckClick);
+    </script>
+</body>
+</html>
